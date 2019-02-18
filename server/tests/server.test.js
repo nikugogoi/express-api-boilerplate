@@ -120,7 +120,7 @@ describe('DELETE /todos/:id', () => {
                 }
                 // query database using findById  toNotExist
                 Todo.findById(hexId).then(res => {
-                    expect(res).toBeNull()
+                    expect(res).toBeFalsy()
                     done()
                 }).catch(err => done(err))
             })
