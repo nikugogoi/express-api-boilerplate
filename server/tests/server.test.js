@@ -317,3 +317,24 @@ describe('POST /users/login', () => {
             })
     })
 })
+
+describe('DELETE /users/me/token', () => {
+    it('should remove atuth token on logout', (done) => {
+        // make delete request
+        request(app)
+            .delete('/users/me/token')
+            // set x-auth equal to token
+            .set('x-auth', users[0].tokens[0].token)
+            // 200
+            .expect(200)
+            .end((err, res) => {
+                if(err)
+                 return done(err)
+                // find user, verify tokens array has length of zero
+                User.findById(users[0]._id).then(user => {
+                    expect(user.tokens.length).toBe(0)
+                    done()
+                }).catch(e => done(e))
+            })
+    })
+})
